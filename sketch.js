@@ -3,15 +3,14 @@ const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
 
-var ground, gameState,engine, world;
-var dustbin;
-var paper;
-var background,backgroundImg ;
+var ground, gameState,engine, world,dustbin,paper;
+var background1;
 
 function preload()
 {
-  backgroundImg= loadImage("background.jpg");
+  background1= loadImage("background.jpg");
 }
+
 function setup() {
   createCanvas(800, 400);
   rectMode(CENTER);
@@ -22,13 +21,9 @@ function setup() {
   world = engine.world;
   Engine.run(engine);
 
- 
-  dustbin = new DustBin(720, 390, 100, 10);
-  //dustbin.addImage(dustbinImg)
-  
- 
-  paper = new Paper(200, 300, 10);
-  //paper.addImage(paperImg)
+  dustbin = new DustBin(720, 320, 100, 10);
+
+  paper = new Paper(200, 300, 2);
   
   ground = Bodies.rectangle(width / 2, 400, width, 10,
   {
@@ -38,40 +33,38 @@ function setup() {
 }
 
 function draw() {
-  background(backgroundImg);
-
-  if (gameState === "start") 
-  {
+  if (gameState === "start") {
+    background(background1);
     textSize(40);
     fill("black");
     text("HOP A  LITTLE  DROP A  LITTLE ", 100, 200)
     textSize(20);
-    fill("blue");
+    fill("red");
     text("\n Press 'SPACE' to Start, and Up to throw away the trash", 150, 350)
     
-    if (keyDown("space")) 
-    {
+    if (keyDown("space")) {
       gameState = "play"
     }
   }
   if (gameState === "play") {
-
-    //background(backgroundImg);
     rectMode(CENTER);
-    background(backgroundImg);
-    dustbin.display();
+    background(background1);
+
     paper.display();
+    dustbin.display();
+   
 
   }
 }
 
-
-function keyPressed()
+function keyPressed() 
 {
-  if (keyCode === UP_ARROW && gameState === "play") {
-    Matter.Body.applyForce(paper.body, paper.body.position, {
-      x: 12,
-      y: -13
-    });
+  if (keyCode === UP_ARROW)
+   {
+
+    Matter.Body.applyForce(paperObject.body,paperObject.body.position,{x:130,y:-145});
+
+  
   }
 }
+
