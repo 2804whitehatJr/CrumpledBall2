@@ -3,68 +3,61 @@ const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
 
-var ground, gameState,engine, world,dustbin,paper;
-var background1;
+var ground1,box1,box2,box3,paper1;
+var backgroundImg;
 
 function preload()
 {
-  background1= loadImage("background.jpg");
+	boximage = loadImage('box.png');
+	backgroundImg= loadImage("background.webp");
 }
 
 function setup() {
-  createCanvas(800, 400);
-  rectMode(CENTER);
+	
+	
+	var canvas = createCanvas(1400, 700);
+	rectMode(CENTER);
+	engine = Engine.create();
+	world = engine.world;
+	
 
-  gameState = "start";
 
-  engine = Engine.create();
-  world = engine.world;
-  Engine.run(engine);
-
-  dustbin = new DustBin(720, 320, 100, 10);
-
-  paper = new Paper(200, 300, 2);
+	
+	box1 = new Box(1100,495,150,15);
+	box2 = new Box(1185,420,15,170);
+	box3 = new Box(1015,420,15,170);
+	
+	ground1 = new Ground(700,550,1400,30);
+	
+	paper1 = new Paper(200,300);
+	
+	 Engine.run(engine);
   
-  ground = Bodies.rectangle(width / 2, 400, width, 10,
-  {
-    isStatic: true
-  });
-  World.add(world, ground);
 }
+
 
 function draw() {
-  if (gameState === "start") {
-    background(background1);
-    textSize(40);
-    fill("black");
-    text("HOP A  LITTLE  DROP A  LITTLE ", 100, 200)
-    textSize(20);
-    fill("red");
-    text("\n Press 'SPACE' to Start, and Up to throw away the trash", 150, 350)
-    
-    if (keyDown("space")) {
-      gameState = "play"
-    }
-  }
-  if (gameState === "play") {
-    rectMode(CENTER);
-    background(background1);
-
-    paper.display();
-    dustbin.display();
-   
-
-  }
+	background(backgroundImg);
+	Engine.update(engine);
+	
+	
+	
+	ground1.display();
+	box3.display();
+	box1.display();
+	box2.display();
+	image(boximage,1000,330,200,200);
+	paper1.display();
+	
+ 
 }
 
-function keyPressed() 
-{
-  if (keyCode === UP_ARROW)
-   {
+	function keyPressed()	{
+		if(keyCode===UP_ARROW)	{
+			Matter.Body.applyForce(paper1.body,paper1.body.position,{x:110,y:-110});
 
-    Matter.Body.applyForce(paperObject.body,paperObject.body.position,{x:130,y:-145});
+		}
+	}
 
-  
-  }
-}
+
 
